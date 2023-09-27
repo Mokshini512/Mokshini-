@@ -1,0 +1,26 @@
+import javax.management.*;
+import java.lang.management.ManagementFactory;
+
+public class EnergyConsumptionMonitor {
+
+    public static void main(String[] args) throws Exception {
+        // Get a reference to the platform MBeanServer
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+
+        // Define the ObjectName to access system power management data
+        ObjectName osObjectName = new ObjectName("java.lang:type=OperatingSystem");
+
+        // Define attributes related to energy consumption
+        String[] powerAttributes = {
+                "ProcessCpuLoad",
+                "SystemCpuLoad",
+                "ProcessCpuTime"
+        };
+
+        // Print energy-related information
+        for (String attribute : powerAttributes) {
+            Object value = mbs.getAttribute(osObjectName, attribute);
+            System.out.println(attribute + ": " + value);
+        }
+    }
+}
